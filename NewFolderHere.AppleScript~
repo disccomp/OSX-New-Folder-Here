@@ -10,11 +10,20 @@ on run {input, parameters}
                         
                 end if
                 
-                set NewFolderName to text returned of (display dialog "New Folder Name?" default answer "New Folder")
-                set newFolder to make new folder at ThePath with properties {name:NewFolderName}
+        on error -- default to the desktop
                 
-                return newFolder
+                set ThePath to (get path to desktop folder)
                 
         end try
+        
+        set NewFolderName to text returned of (display dialog "New Folder Name?" default answer "New Folder")
+        
+        tell application "Finder"
+                try
+                        set newFolder to make new folder at ThePath with properties {name:NewFolderName}
+                        reveal newFolder
+                end try
+        end tell
+        
         
 end run
